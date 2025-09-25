@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 public class MessageController {
     private final MessageService messageService;
 
-    @PostMapping("/saveMessage")
+    @PostMapping
+    @RequestMapping("/saveMessage")
     public void saveMessage(MessageRequest messageRequest){
         MessageModel messageModel = MessageModel.builder()
                 .messageId(messageRequest.messageId())
@@ -27,6 +28,8 @@ public class MessageController {
                 .build();
         messageService.saveMessage(messageModel);
     }
+    @GetMapping
+    @RequestMapping("/getMessagesByRoomId")
     public Page<MessageModel> getMessagesByRoomId(@PathVariable String roomId, @RequestParam(defaultValue = "0") Integer pageNumber,@RequestParam(defaultValue = "20") Integer pageSize){
         return messageService.getMessagesByRoomId(roomId, PageRequest.of(pageNumber,pageSize));
     }
